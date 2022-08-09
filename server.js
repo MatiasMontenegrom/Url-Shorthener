@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const ShortUrl = require('./models/shortUrl');
 const app = express();
+require('dotenv').config();
 
-mongoose.connect('mongodb://localhost/urlShortener', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: false });
+    
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
@@ -29,6 +31,11 @@ app.get('/:shortUrl', async (req, res) => {
     res.redirect(shortUrl.full);
 
 })
+
+//empty the database each 10 seconds
+setInterval(async () => {
+    await ShortUrl.deleteMany({});
+} , 10000);
 
 
 
