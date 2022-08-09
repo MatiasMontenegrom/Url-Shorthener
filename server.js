@@ -20,7 +20,7 @@ app.post('/shortUrls',async (req, res) => {
     res.redirect('/');
 })
 
-app.get('/:shortUrl', async (req, res) => {
+app.get('https://url-shorthener.herokuapp.com//:shortUrl', async (req, res) => {
     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
 
     if(shortUrl == null) return res.sendStatus(404);
